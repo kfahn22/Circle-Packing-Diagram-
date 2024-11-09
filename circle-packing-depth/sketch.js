@@ -13,9 +13,6 @@ function preload() {
 
 function setup() {
   createCanvas(1280, 1280);
-  p = createP(`Circle Packing of Coding Train Challenge Showcases`).addClass(
-    "title"
-  );
 
   // Initialize D3 Hierarchy and pack
   root = d3.pack(data).size([width, height]).padding(1)(
@@ -26,6 +23,10 @@ function setup() {
   );
 
   drawPack();
+  let num = root.value;
+  p = createP(`Circle Packing of Coding Train Challenge Showcases<br>${num} showcases as of 10-30-24`).addClass(
+    "title"
+  );
 }
 
 function assignColor(node, color1, color2) {
@@ -61,9 +62,9 @@ function draw() {
       noStroke();
       textSize(s);
       textAlign(LEFT, TOP);
-      text(popup.text, popup.x - 180, popup.y, popup.w);
+      text(popup.text, popup.x - 190, popup.y + 10, popup.w);
       if (popup.text1) {
-        text(popup.text1, popup.x - 180, popup.y + 3 * s + 10, popup.w);
+        text(popup.text1, popup.x - 190, popup.y + 3 * s + 10, popup.w);
       }
     }
   }
@@ -106,6 +107,8 @@ function mouseMoved() {
     let node = g.node;
     let d = dist(mouseX, mouseY, node.x, node.y);
     if (d < node.r && node.data.name != "root") {
+      found = true;
+
       if (!node.children) {
         popup = {
           x: mouseX,
@@ -114,7 +117,8 @@ function mouseMoved() {
           h: 125,
           text: `${node.data.name}\n${node.value} showcases`,
         };
-      } else {
+        break;
+      } 
         for (n of node.children) {
           let childD = dist(mouseX, mouseY, n.x, n.y);
           if (childD < n.r) {
@@ -128,6 +132,7 @@ function mouseMoved() {
                 text: `${n.data.name}\n${n.value} showcases`,
                 text1: `${node.data.name}\n${node.value} showcases`,
               };
+              break;
             } else {
               for (let c of n.children) {
                 let cD = dist(mouseX, mouseY, c.x, c.y);
@@ -141,13 +146,14 @@ function mouseMoved() {
                     text: `${c.data.name}\n${c.value} showcases `,
                     text1: `${n.data.name} ${n.value} showcases`,
                   };
+                  break;
                 }
               }
               if (inChild && !insubChild) {
                 popup = {
                   x: mouseX,
                   y: mouseY,
-                  w: 350,
+                  w: 375,
                   h: 125,
                   text: `${n.data.name}\n${n.value} showcases `,
                 };
@@ -159,15 +165,11 @@ function mouseMoved() {
           popup = {
             x: mouseX,
             y: mouseY,
-            w: 350,
+            w: 375,
             h: 125,
             text: `${node.data.name}\n${node.value} showcases `,
           };
         }
-
-        found = true;
-        break;
-      }
     }
   }
   if (!found) {

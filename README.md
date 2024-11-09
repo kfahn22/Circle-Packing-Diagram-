@@ -68,22 +68,7 @@ Because there are too many--in some cases very small--circles to make it practic
 let d = dist(mouseX, mouseY, node.x, node.y);
 ```
 
-Since some of the nodes have children, we first determine whether the mouse is in a child. If it is, we add a popup for the child, also adding the parent's information. Otherwise, we add a popup for the node.
-
-```JavaScript
-let childD = dist(mouseX, mouseY, n.x, n.y);
-if (childD < n.r) {
-  inChild = true;
-  popup = {
-    x: mouseX,
-    y: mouseY,
-    w: 350,
-    h: 125,
-    text: `${n.data.name}\n${n.value} showcases `,
-    text1: `${node.data.name} ${node.value} showcases`,
-    };
-}
-```
+Since some of the nodes have children, we first determine whether the mouse is in a child (subchild). If it is, we add a popup for the child (subchild). Otherwise, we add a popup for the node.
 
 <p align="center"><img src="assets/depth.jpg" alt="Treemap of Coding Challenge showcases" width="500px"></p>
 
