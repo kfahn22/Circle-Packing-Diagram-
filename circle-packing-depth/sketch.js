@@ -3,7 +3,7 @@
 let data;
 let root;
 let popup = null;
-let inChild = false;
+let inChild, insubChild;
 let graphics = [];
 let p;
 
@@ -101,6 +101,7 @@ function drawPack() {
 function mouseMoved() {
   let found = false;
   inChild = false;
+  insubChild = false;
   for (let g of graphics) {
     let node = g.node;
     let d = dist(mouseX, mouseY, node.x, node.y);
@@ -117,8 +118,8 @@ function mouseMoved() {
         for (n of node.children) {
           let childD = dist(mouseX, mouseY, n.x, n.y);
           if (childD < n.r) {
+            inChild = true;
             if (!n.children) {
-              inChild = true;
               popup = {
                 x: mouseX,
                 y: mouseY,
@@ -131,7 +132,7 @@ function mouseMoved() {
               for (let c of n.children) {
                 let cD = dist(mouseX, mouseY, c.x, c.y);
                 if (cD < c.r) {
-                  inChild = true;
+                  insubChild = true;
                   popup = {
                     x: mouseX,
                     y: mouseY,
@@ -141,6 +142,15 @@ function mouseMoved() {
                     text1: `${n.data.name} ${n.value} showcases`,
                   };
                 }
+              }
+              if (inChild && !insubChild) {
+                popup = {
+                  x: mouseX,
+                  y: mouseY,
+                  w: 350,
+                  h: 125,
+                  text: `${n.data.name}\n${n.value} showcases `,
+                };
               }
             }
           }
