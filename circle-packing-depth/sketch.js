@@ -3,6 +3,7 @@
 let data;
 let root;
 let popup = null;
+let inChild = false;
 let graphics = [];
 let p;
 
@@ -99,36 +100,61 @@ function drawPack() {
 
 function mouseMoved() {
   let found = false;
+  inChild = false;
   for (let g of graphics) {
     let node = g.node;
     let d = dist(mouseX, mouseY, node.x, node.y);
     if (d < node.r && node.data.name != "root") {
-      if (node.children) {
-        inChild = false; // boolean for whether in a child circle
+      if (!node.children) {
+        popup = {
+          x: mouseX,
+          y: mouseY,
+          w: 300,
+          h: 125,
+          text: `${node.data.name}\n${node.value} showcases`,
+        };
+      } else {
         for (n of node.children) {
           let childD = dist(mouseX, mouseY, n.x, n.y);
           if (childD < n.r) {
-            inChild = true;
-            popup = {
-              x: mouseX,
-              y: mouseY,
-              w: 350,
-              h: 125,
-              text: `${n.data.name}\n${n.value} showcases `,
-              text1: `${node.data.name} ${node.value} showcases`,
-            };
+            if (!n.children) {
+              inChild = true;
+              popup = {
+                x: mouseX,
+                y: mouseY,
+                w: 300,
+                h: 125,
+                text: `${n.data.name}\n${n.value} showcases`,
+                text1: `${node.data.name}\n${node.value} showcases`,
+              };
+            } else {
+              for (let c of n.children) {
+                let cD = dist(mouseX, mouseY, c.x, c.y);
+                if (cD < c.r) {
+                  inChild = true;
+                  popup = {
+                    x: mouseX,
+                    y: mouseY,
+                    w: 350,
+                    h: 125,
+                    text: `${c.data.name}\n${c.value} showcases `,
+                    text1: `${n.data.name} ${n.value} showcases`,
+                  };
+                }
+              }
+            }
           }
         }
-
         if (!inChild) {
           popup = {
             x: mouseX,
             y: mouseY,
-            w: 300,
-            h: 75,
-            text: `${node.data.name}\n${node.value} showcases`,
+            w: 350,
+            h: 125,
+            text: `${node.data.name}\n${node.value} showcases `,
           };
         }
+
         found = true;
         break;
       }

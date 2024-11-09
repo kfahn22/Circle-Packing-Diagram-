@@ -86,3 +86,5 @@ if (childD < n.r) {
 ```
 
 <p align="center"><img src="assets/depth.jpg" alt="Treemap of Coding Challenge showcases" width="500px"></p>
+
+You can explore the circle packing diagram [here](https://editor.p5js.org/kfahn/full/gp7zqBB9D).
