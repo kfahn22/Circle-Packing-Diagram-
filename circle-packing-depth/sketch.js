@@ -48,7 +48,9 @@ function draw() {
     textSize(s);
     textAlign(LEFT, TOP);
     text(popup.text, popup.x + 10, popup.y + 10, popup.w);
-    text(popup.text1, popup.x + 10, popup.y + 3 * s + 10, popup.w);
+    if (popup.text1) {
+      text(popup.text1, popup.x + 10, popup.y + 3 * s + 10, popup.w);
+    }
   } else {
     if (popup && popup.x > width * 0.66) {
       fill(255, 255, 255, 200);
@@ -59,7 +61,9 @@ function draw() {
       textSize(s);
       textAlign(LEFT, TOP);
       text(popup.text, popup.x - 180, popup.y, popup.w);
-      text(popup.text1, popup.x - 180, popup.y + 3 * s + 10, popup.w);
+      if (popup.text1) {
+        text(popup.text1, popup.x - 180, popup.y + 3 * s + 10, popup.w);
+      }
     }
   }
 }
@@ -73,7 +77,7 @@ function drawPack() {
     let { x, y, r } = node;
     let w = 2 * r;
     let h = 2 * r;
-    
+
     let buffer = createGraphics(w, h);
     buffer.fill(c);
     buffer.noStroke();
@@ -88,13 +92,7 @@ function drawPack() {
       y: y - r,
       w: w,
       h: h,
-      r: r,
-      cX: x,
-      cY: y,
-      name: node.data.name,
-      value: node.value,
-      parent: node.parent,
-      children: node.children,
+      node: node,
     });
   }
 }
@@ -102,49 +100,41 @@ function drawPack() {
 function mouseMoved() {
   let found = false;
   for (let g of graphics) {
-    let d = dist(mouseX, mouseY, g.cX, g.cY);
-    if (d < g.r && g.name != "root" && g.children == null) {
-      let parent = g.parent.data.name;
-      if (parent) {
-        popup = {
-          x: mouseX,
-          y: mouseY,
-          w: 350,
-          h: 125,
-          text: `${g.name}\n${g.value} showcases `,
-          text1: `${parent} ${g.parent.value} showcases`,
-        };
-      } else {
-        popup = {
-          x: mouseX,
-          y: mouseY,
-          w: 300,
-          h: 75,
-          text: `${g.name}\n${g.value} showcases `,
-        };
+    let node = g.node;
+    let d = dist(mouseX, mouseY, node.x, node.y);
+    if (d < node.r && node.data.name != "root") {
+      if (node.children) {
+        inChild = false; // bolean for whether in a child circle
+        for (n of node.children) {
+          let childD = dist(mouseX, mouseY, n.x, n.y);
+          if (childD < n.r) {
+            inChild = true;
+            popup = {
+              x: mouseX,
+              y: mouseY,
+              w: 350,
+              h: 125,
+              text: `${n.data.name}\n${n.value} showcases `,
+              text1: `${node.data.name} ${node.value} showcases`,
+            };
+          }
+        }
+
+        if (!inChild) {
+          popup = {
+            x: mouseX,
+            y: mouseY,
+            w: 300,
+            h: 75,
+            text: `${node.data.name}\n${node.value} showcases`,
+          };
+        }
+        found = true;
+        break;
       }
-      found = true;
-      break;
     }
   }
   if (!found) {
     popup = null;
   }
 }
-
-// function renderText(r, txt) {
-//   let sentenceArray = txt.split("");
-//   for (let i = 0; i < sentenceArray.length; i++) {
-//     noStroke();
-//     fill(255);
-//     textSize(18);
-//     let angle = map(i, 0, sentenceArray.length, 0, TWO_PI);
-//     push();
-//     let x = r * cos(angle);
-//     let y = r * sin(angle);
-//     translate(x, y);
-//     rotate(angle + PI / 2);
-//     text(sentenceArray[i], 0, 0);
-//     pop();
-//   }
-// }

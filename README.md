@@ -29,7 +29,7 @@ function preload() {
   );
 ```
 
-The color of each node is a function its depth, which is one of the variables returned by the pack function.
+I am using the p5.js `lerpColor()` function to interpolate between two colors based on the depth of the node (0-3 for this data structure).
 
 ```JavaScript
 function assignColor(node, color1, color2) {
