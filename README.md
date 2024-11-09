@@ -70,6 +70,6 @@ let d = dist(mouseX, mouseY, node.x, node.y);
 
 Since some of the nodes have children, we first determine whether the mouse is in a child (subchild). If it is, we add a popup for the child (subchild). Otherwise, we add a popup for the node.
 
-<p align="center"><img src="assets/depth.jpg" alt="Treemap of Coding Challenge showcases" width="500px"></p>
+<p align="center"><img src="assets/pack.jpg" alt="Treemap of Coding Challenge showcases" width="500px"></p>
 
 You can explore the circle packing diagram [here](https://editor.p5js.org/kfahn/full/gp7zqBB9D).
