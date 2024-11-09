@@ -65,16 +65,15 @@ function draw() {
 }
 function drawPack() {
   for (let node of root) {
-    let { x, y, r } = node;
-    let w = 2 * r;
-    let h = 2 * r;
-
     // Assign color based on depth of node
     let c0 = color("#70327E");
     let c1 = color("#F89E4F");
     let c = assignColor(node, c0, c1);
-   
 
+    let { x, y, r } = node;
+    let w = 2 * r;
+    let h = 2 * r;
+    
     let buffer = createGraphics(w, h);
     buffer.fill(c);
     buffer.noStroke();
@@ -82,9 +81,6 @@ function drawPack() {
     buffer.fill(0);
     buffer.textSize(5);
     buffer.textAlign(LEFT, TOP);
-    // if (r > 50) {
-    //   buffer.text(node.data.name, x, y);
-    // }
 
     graphics.push({
       buffer: buffer,
