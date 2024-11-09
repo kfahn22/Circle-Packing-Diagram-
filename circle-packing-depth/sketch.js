@@ -104,7 +104,7 @@ function mouseMoved() {
     let d = dist(mouseX, mouseY, node.x, node.y);
     if (d < node.r && node.data.name != "root") {
       if (node.children) {
-        inChild = false; // bolean for whether in a child circle
+        inChild = false; // boolean for whether in a child circle
         for (n of node.children) {
           let childD = dist(mouseX, mouseY, n.x, n.y);
           if (childD < n.r) {
