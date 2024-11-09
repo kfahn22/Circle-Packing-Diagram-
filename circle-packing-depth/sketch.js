@@ -114,7 +114,7 @@ function mouseMoved() {
           x: mouseX,
           y: mouseY,
           w: 300,
-          h: 125,
+          h: 80,
           text: `${node.data.name}\n${node.value} showcases`,
         };
         break;
@@ -128,7 +128,7 @@ function mouseMoved() {
                 x: mouseX,
                 y: mouseY,
                 w: 300,
-                h: 125,
+                h: 80,
                 text: `${n.data.name}\n${n.value} showcases`,
                 text1: `${node.data.name}\n${node.value} showcases`,
               };
@@ -142,7 +142,7 @@ function mouseMoved() {
                     x: mouseX,
                     y: mouseY,
                     w: 350,
-                    h: 125,
+                    h: 80,
                     text: `${c.data.name}\n${c.value} showcases `,
                     text1: `${n.data.name} ${n.value} showcases`,
                   };
@@ -154,7 +154,7 @@ function mouseMoved() {
                   x: mouseX,
                   y: mouseY,
                   w: 375,
-                  h: 125,
+                  h: 80,
                   text: `${n.data.name}\n${n.value} showcases `,
                 };
               }
@@ -166,7 +166,7 @@ function mouseMoved() {
             x: mouseX,
             y: mouseY,
             w: 375,
-            h: 125,
+            h: 80,
             text: `${node.data.name}\n${node.value} showcases `,
           };
         }
