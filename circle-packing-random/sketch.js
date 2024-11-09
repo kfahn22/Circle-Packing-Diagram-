@@ -47,11 +47,13 @@ function setup() {
 
 function assignColors(node) {
   if (!node.data.color) {
-    node.data.color = random(palette); // Choose a color and store it in node.data.color
+    // Choose a color and store it in node.data.color
+    node.data.color = random(palette);
   }
   if (node.children) {
     for (let child of node.children) {
-      assignColors(child); // Recursively assign colors to each child
+      // Recursively assign colors to each child
+      assignColors(child);
     }
   }
 }
@@ -62,10 +64,10 @@ function draw() {
     image(g.buffer, g.x, g.y, g.w, g.h);
   }
   let s = 18;
-  if (popup && popup.x < width * 0.75) {
+  if (popup && popup.x < width * 0.66) {
     fill(255, 255, 255, 200);
     noStroke();
-    rect(popup.x, popup.y, popup.w, popup.h, 20);
+    rect(popup.x, popup.y, popup.w, popup.h, 5);
     fill(0);
     noStroke();
     textSize(s);
@@ -73,10 +75,10 @@ function draw() {
     text(popup.text, popup.x + 10, popup.y + 10, popup.w);
     text(popup.text1, popup.x + 10, popup.y + 3 * s + 10, popup.w);
   } else {
-    if (popup && popup.x > width * 0.75) {
+    if (popup && popup.x > width * 0.66) {
       fill(255, 255, 255, 200);
       noStroke();
-      rect(popup.x - 200, popup.y, popup.w, popup.h, 20);
+      rect(popup.x - 200, popup.y, popup.w, popup.h, 5);
       fill(0);
       noStroke();
       textSize(s);
@@ -87,32 +89,26 @@ function draw() {
   }
 }
 function drawPack() {
-  // Clear the graphics array to avoid layering
-  graphics = [];
-
   for (let node of root) {
-    let col = node.data.color;
+    //console.log(node)
     let { x, y, r } = node;
     let w = 2 * r;
     let h = 2 * r;
 
-    // Make sure node and parent don't have same color
+    // Attempt to make sure node and parent don't have same color
     if (node.parent) {
-      if (col == node.parent.data.color) {
-        col = [252, 238, 33];
+      if (node.data.color == node.parent.data.color) {
+        node.data.color = [252, 238, 33];
       }
     }
 
     let buffer = createGraphics(w, h);
-    buffer.fill(col);
+    buffer.fill(node.data.color);
     buffer.noStroke();
     buffer.circle(r, r, 2 * r);
-    buffer.fill(255);
-    buffer.textSize(18);
+    buffer.fill(0);
+    buffer.textSize(5);
     buffer.textAlign(LEFT, TOP);
-    if (r > 100) {
-      buffer.text(node.data.name, w, y);
-    }
 
     graphics.push({
       buffer: buffer,
@@ -141,8 +137,8 @@ function mouseMoved() {
         popup = {
           x: mouseX,
           y: mouseY,
-          w: 300,
-          h: 120,
+          w: 350,
+          h: 125,
           text: `${g.name}\n${g.value} showcases `,
           text1: `${parent} ${g.parent.value} showcases`,
         };
@@ -163,3 +159,20 @@ function mouseMoved() {
     popup = null;
   }
 }
+
+// function renderText(r, txt) {
+//   let sentenceArray = txt.split("");
+//   for (let i = 0; i < sentenceArray.length; i++) {
+//     noStroke();
+//     fill(255);
+//     textSize(18);
+//     let angle = map(i, 0, sentenceArray.length, 0, TWO_PI);
+//     push();
+//     let x = r * cos(angle);
+//     let y = r * sin(angle);
+//     translate(x, y);
+//     rotate(angle + PI / 2);
+//     text(sentenceArray[i], 0, 0);
+//     pop();
+//   }
+// }
